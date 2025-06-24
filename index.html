@@ -157,44 +157,6 @@
       background: #2e892a;
     }
 
-    .card-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .card {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      max-width: 300px;
-      text-align: center;
-    }
-
-    .card img {
-      width: 60px;
-      margin-bottom: 1rem;
-    }
-
-    .slider {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-    }
-
-    .slide {
-      flex: 0 0 100%;
-      scroll-snap-align: center;
-    }
-
-    .slide img {
-      width: 100%;
-      height: auto;
-    }
-
     .faq-item {
       text-align: left;
       margin-bottom: 1.5rem;
@@ -227,16 +189,6 @@
       border-radius: 5px;
       margin-top: 1rem;
     }
-
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .navbar {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
   </style>
 </head>
 <body>
@@ -260,5 +212,29 @@
   </div>
 </nav>
 
-<!-- rest of the body remains unchanged -->
+<section id="faq" class="section">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <h3>🔐 What is VendPlug Escrow?</h3>
+    <p>VendPlug Escrow is a secure payment solution that holds funds until a buyer confirms they have received the product as described. It's perfect for untrusted or informal sellers.</p>
+  </div>
+  <div class="faq-item">
+    <h3>🤝 Can I use VendPlug if I don’t live in a supported city?</h3>
+    <p>We’re growing fast! You can join the waitlist and we'll notify you when VendPlug launches in your area.</p>
+  </div>
+  <div class="faq-item">
+    <h3>🧾 Are there fees for using VendPlug?</h3>
+    <p>VendPlug is free for buyers. For vendors, minimal fees may apply depending on services like delivery or escrow.</p>
+  </div>
+  <div class="faq-item">
+    <h3>📱 How do I join VendPlug as a vendor or agent?</h3>
+    <p>You can register interest through our platform and our team will follow up with onboarding instructions.</p>
+  </div>
+</section>
+
+</body>
+</html>
+
+
+
 
