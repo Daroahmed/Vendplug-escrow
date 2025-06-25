@@ -30,7 +30,7 @@
     }
 
     header img {
-      max-height: 50px;
+      max-height: 90px;
     }
 
     .navbar {
@@ -74,27 +74,43 @@
       display: block;
     }
 
-    .hero {
-      height: 500px;
-      background: url('https://via.placeholder.com/1600x500?text=VendPlug+Hero') no-repeat center center/cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
+    .hero-carousel {
       position: relative;
+      height: 500px;
+      overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
+    .hero-slides {
       position: absolute;
       inset: 0;
-      background-color: rgba(0,0,0,0.4);
     }
 
-    .hero-content {
-      position: relative;
+    .hero-slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
       z-index: 1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 2rem;
     }
 
     .cta-button {
@@ -116,28 +132,36 @@
     }
 
     .carousel {
+      overflow: hidden;
       position: relative;
       max-width: 1000px;
-      margin: auto;
-      overflow: hidden;
+      margin: 2rem auto;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .slides {
+    .carousel-track {
       display: flex;
-      width: 300%;
-      animation: slide 15s infinite;
+      transition: transform 0.6s ease;
     }
 
     .slide {
-      width: 100%;
-      flex-shrink: 0;
-      position: relative;
+      flex: 0 0 100%;
+      text-align: center;
     }
 
     .slide img {
-      width: 100%;
-      height: 400px;
+      max-width: 100%;
+      height: 450px;
       object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .slide p {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #555;
     }
 
     .caption {
@@ -148,13 +172,6 @@
       color: white;
       padding: 10px 20px;
       border-radius: 5px;
-    }
-
-    @keyframes slide {
-      0%, 20% { transform: translateX(0); }
-      25%, 45% { transform: translateX(-100%); }
-      50%, 70% { transform: translateX(-200%); }
-      75%, 100% { transform: translateX(0); }
     }
 
     .faq-item {
@@ -192,8 +209,19 @@
   </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-content">
+<section class="hero-carousel">
+  <div class="hero-slides">
+    <img src="market-1.jpg" class="hero-slide active">
+    <img src="market-2.jpg" class="hero-slide">
+    <img src="market-3.jpg" class="hero-slide">
+    <img src="market-4.jpg" class="hero-slide">
+    <img src="market-5.jpg" class="hero-slide">
+    <img src="market-6.jpg" class="hero-slide">
+    <img src="market-7.jpg" class="hero-slide">
+    <img src="market-8.jpg" class="hero-slide">
+    <img src="market-9.jpg" class="hero-slide">
+  </div>
+  <div class="hero-overlay">
     <h1>Redefining Local Commerce</h1>
     <p>Shop Nigeria’s markets with ease using VendPlug’s tech-powered platform.</p>
     <button class="cta-button" onclick="document.getElementById('waitlist').scrollIntoView({behavior: 'smooth'})">
@@ -201,67 +229,73 @@
     </button>
   </div>
 </section>
-  <section class="section">
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const slides = document.querySelectorAll('.hero-slide');
+    let current = 0;
+
+    function showNextSlide() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }
+
+    setInterval(showNextSlide, 4000);
+  });
+</script>
+
+<section class="section" id="about">
   <h2>About VendPlug</h2>
   <p>Our mission is to digitize and organize Africa’s informal market system. We empower local economies by simplifying how people shop, pay, and connect through secure digital experiences.</p>
 </section>
 
-<section class="section">
-  <h2>How It Works</h2>
-  <p>👤 → 🏪 → 🛒 → 🛻 → 🏡</p>
-  <p>Fund your wallet, shop local markets, and let VendPlug’s concierge agents deliver right to your door.</p>
-</section>
-
-<section id="showcase" class="section">
-  <h2>See VendPlug in Action</h2>
+<section id="carousel" class="section" style="background:#f9f9f9;">
+  <h2>VendPlug in Action</h2>
   <div class="carousel">
-    <div class="slides">
+    <div class="carousel-track">
       <div class="slide">
-        <img src="https://via.placeholder.com/1000x400?text=Local+Markets+in+Nigeria" alt="Local Market" />
-        <div class="caption">Connecting buyers to real Nigerian markets</div>
+        <img src="vendplug-action-1.png" alt="Pickup Station" />
+        <p>Ready to shop for you!</p>
       </div>
       <div class="slide">
-        <img src="https://via.placeholder.com/1000x400?text=Trusted+Delivery" alt="Delivery" />
-        <div class="caption">Delivery with trust and speed</div>
+        <img src="vendplug-action-2.png" alt="Delivery to Customer" />
+        <p>Delivering to a happy customer</p>
       </div>
       <div class="slide">
-        <img src="https://via.placeholder.com/1000x400?text=Escrow+Wallet+Protection" alt="Escrow" />
-        <div class="caption">Secure Escrow Wallet for every transaction</div>
+        <img src="vendplug-action-3.png" alt="Shopping with Vendor" />
+        <p>Helping vendors fulfill your list</p>
       </div>
     </div>
   </div>
 </section>
 
-
-<!-- Escrow Section -->
-<section id="escrow" class="section fade-in-section" style="background:#fff;">
+<section id="escrow" class="section" style="background:#fff;">
   <h2>Escrow for Safer Marketplaces</h2>
   <p style="max-width:800px;margin:auto;font-size:18px;line-height:1.6;">
-    Marketplaces like Jiji don’t protect buyers—we do.
-    VendPlug’s escrow ensures money is only released when buyers confirm receipt of goods. We're building trust into every transaction.
+    In many online marketplaces, transactions happen directly between buyers and sellers—with little protection if things go wrong. 
+    VendPlug changes that by adding a secure escrow layer to the buying experience.
   </p>
   <button class="cta-button" onclick="alert('More about Escrow coming soon!')">Learn More</button>
 </section>
 
-<!-- Team Section -->
-<section id="team" class="section fade-in-section">
+<section id="team" class="section">
   <h2>Faces of VendPlug</h2>
   <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:40px;margin-top:30px;">
     <div style="max-width:200px;text-align:center;">
       <img src="https://via.placeholder.com/150" alt="Ahmed Abdullahi" style="border-radius:50%;width:150px;height:150px;">
-      <h3 style="margin-top:10px;">Ahmed Abdullahi</h3>
-      <p style="font-size:14px;color:#666;">Founder & Product Lead</p>
+      <h3 style="margin-top:10px;">Ahmed</h3>
+      <p style="font-size:14px;color:#666;">Founder & CEO </p>
     </div>
     <div style="max-width:200px;text-align:center;">
       <img src="https://via.placeholder.com/150" alt="CTO" style="border-radius:50%;width:150px;height:150px;">
-      <h3 style="margin-top:10px;">Your CTO</h3>
+      <h3 style="margin-top:10px;">Muwaffaq</h3>
       <p style="font-size:14px;color:#666;">Co-Founder & CTO</p>
     </div>
   </div>
 </section>
 
-<!-- Locations Section -->
-<section id="locations" class="section fade-in-section" style="background:#f7fff9;">
+<section id="locations" class="section" style="background:#f7fff9;">
   <h2>Where We Operate</h2>
   <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:30px;">
     <div style="text-align:center;">
@@ -277,13 +311,12 @@
     <div style="text-align:center;">
       <img src="https://img.icons8.com/fluency/48/marker.png" />
       <h4>Jos</h4>
-      <p>Terminus, Bauchi Road</p>
+      <p>Terminus, Bukuru</p>
     </div>
   </div>
 </section>
 
-<!-- Security Section -->
-<section id="security" class="section fade-in-section">
+<section id="security" class="section">
   <h2>Secure Payments, Peace of Mind</h2>
   <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:30px;">
     <div style="max-width:260px;text-align:center;">
@@ -294,7 +327,7 @@
     <div style="max-width:260px;text-align:center;">
       <img src="https://img.icons8.com/fluency/64/data-encryption.png"/>
       <h3>Encrypted</h3>
-      <p style="font-size:14px;">Every transaction is encrypted and logged.</p>
+      <p style="font-size:14px;">All payments happen securely within our app, ensuring your money is safe from start to finish. Every transaction is encrypted and traceable.</p>
     </div>
     <div style="max-width:260px;text-align:center;">
       <img src="https://img.icons8.com/fluency/64/agreement.png"/>
@@ -304,8 +337,7 @@
   </div>
 </section>
 
-<!-- Waitlist Section -->
-<section id="waitlist" class="section fade-in-section" style="background:#fff;">
+<section id="waitlist" class="section" style="background:#fff;">
   <h2>Join the Waitlist</h2>
   <p>Be the first to know when we launch in your area.</p>
   <input type="email" placeholder="Your email here" />
@@ -313,25 +345,26 @@
   <button class="cta-button" style="margin-top:1rem;">Notify Me</button>
 </section>
 
-<!-- Contact Section -->
-<section id="contact" class="section fade-in-section">
+<section id="contact" class="section">
   <h2>Contact Us</h2>
   <p>Have a question or suggestion? Reach out via email:</p>
   <p><strong>info@vendplug.com.ng</strong></p>
 </section>
+
 <section id="faq" class="section">
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item">
     <h3>🔐 What is VendPlug Escrow?</h3>
-    <p>VendPlug Escrow holds funds securely until the buyer confirms goods have been received.</p>
+    <p>VendPlug Escrow is a secure payment solution that holds funds until a buyer confirms they have received the product as described.
+    You can buy from anyone, anywhere in Nigeria, knowing your money is safe.</p>
   </div>
   <div class="faq-item">
-    <h3>🤝 Can I use VendPlug if I don’t live in a supported city?</h3>
-    <p>Yes! Join the waitlist and be notified when we launch in your area.</p>
+    <h3>📱 How do I join VendPlug as a vendor or agent?</h3>
+    <p>You can register interest through our platform and our team will follow up with onboarding instructions.</p>
   </div>
   <div class="faq-item">
-    <h3>🧾 Are there fees?</h3>
-    <p>It’s free for buyers. Small fees may apply for vendors or agents depending on service.</p>
+    <h3>🧾 What can I buy with VendPlug?</h3>
+    <p>Everything you’d find in a real market! From tomatoes, rice, onions, palm oil, beans, peppers, meat, fish, and yams — to electronics, fabrics, phone accessories, shoes, bags, clothes, and even services like tailoring or repairs. If it's in a market, you can get it through VendPlug.</p>
   </div>
 </section>
 
@@ -339,5 +372,23 @@
   &copy; 2025 VendPlug. All rights reserved.
 </footer>
 
+<!-- ✅ Carousel Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const track = document.querySelector('.carousel-track');
+    let index = 0;
+
+    function moveCarousel() {
+      index++;
+      if (index >= track.children.length) index = 0;
+      track.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    setInterval(moveCarousel, 3500);
+  });
+</script>
+
 </body>
 </html>
+
+
