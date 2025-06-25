@@ -23,66 +23,106 @@
     }
 
     header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       background-color: var(--accent-dark);
       color: white;
-      padding: 1rem 2rem;
-      text-align: center;
-    }
-
-    header img {
-      max-height: 90px;
-    }
-
-    .navbar {
-      display: flex;
-      justify-content: center;
-      background: var(--primary-green);
-      padding: 1rem;
+      padding: 1rem 1.5rem;
       flex-wrap: wrap;
     }
 
-    .navbar a {
+    header img {
+      max-height: 60px;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 250px;
+      height: 100%;
+      background-color: var(--accent-dark);
+      color: white;
+      z-index: 1000;
+      transition: left 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+    }
+
+    .sidebar a {
       color: white;
       text-decoration: none;
       font-weight: 600;
-      margin: 0 1rem;
+      margin: 1rem 0;
     }
 
-    .dropdown {
-      position: relative;
+    .sidebar.show {
+      left: 0;
     }
 
-    .dropdown-content {
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 999;
       display: none;
-      position: absolute;
-      background-color: white;
-      min-width: 180px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      z-index: 1;
-      top: 100%;
     }
 
-    .dropdown-content a {
-      color: #333;
-      padding: 12px 16px;
-      display: flex;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .dropdown:hover .dropdown-content {
+    .overlay.show {
       display: block;
     }
 
-    .hero-carousel {
+    nav.navbar {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none;
+      }
+
+      nav.navbar {
+        display: flex;
+        justify-content: center;
+        background: var(--primary-green);
+        padding: 1rem;
+        flex-wrap: wrap;
+      }
+
+      nav.navbar a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        margin: 0 1rem;
+      }
+
+      .sidebar, .overlay {
+        display: none !important;
+      }
+    }
+
+    .hero {
       position: relative;
       height: 500px;
       overflow: hidden;
-    }
-
-    .hero-slides {
-      position: absolute;
-      inset: 0;
     }
 
     .hero-slide {
@@ -91,7 +131,7 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 1.2s ease-in-out;
+      transition: opacity 1s ease-in-out;
     }
 
     .hero-slide.active {
@@ -99,18 +139,22 @@
       z-index: 1;
     }
 
-    .hero-overlay {
+    .hero-content {
       position: absolute;
-      inset: 0;
-      background-color: rgba(0, 0, 0, 0.4);
       z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       text-align: center;
       color: white;
-      padding: 2rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 1;
     }
 
     .cta-button {
@@ -158,22 +202,6 @@
       border-radius: 10px;
     }
 
-    .slide p {
-      margin-top: 10px;
-      font-size: 1rem;
-      color: #555;
-    }
-
-    .caption {
-      position: absolute;
-      bottom: 20px;
-      left: 30px;
-      background-color: rgba(0,0,0,0.6);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-    }
-
     .faq-item {
       text-align: left;
       margin-bottom: 1.5rem;
@@ -190,10 +218,29 @@
 </head>
 <body>
 
+<!-- Sidebar for Mobile Navigation -->
+<div id="sidebar" class="sidebar">
+  <a href="#">Home</a>
+  <a href="#about">About</a>
+  <a href="#escrow">Escrow</a>
+  <a href="#team">Team</a>
+  <a href="#faq">FAQs</a>
+  <a href="#contact">Contact</a>
+  <a href="#waitlist">Join Waitlist</a>
+</div>
+<div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Header -->
 <header>
   <img src="logo.png" alt="VendPlug Logo" />
+  <div id="hamburger" class="hamburger" onclick="toggleSidebar()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </header>
 
+<!-- Desktop Navigation -->
 <nav class="navbar">
   <a href="#">Home</a>
   <a href="#about">About</a>
@@ -209,19 +256,12 @@
   </div>
 </nav>
 
-<section class="hero-carousel">
-  <div class="hero-slides">
-    <img src="market-1.jpg" class="hero-slide active">
-    <img src="market-2.jpg" class="hero-slide">
-    <img src="market-3.jpg" class="hero-slide">
-    <img src="market-4.jpg" class="hero-slide">
-    <img src="market-5.jpg" class="hero-slide">
-    <img src="market-6.jpg" class="hero-slide">
-    <img src="market-7.jpg" class="hero-slide">
-    <img src="market-8.jpg" class="hero-slide">
-    <img src="market-9.jpg" class="hero-slide">
-  </div>
-  <div class="hero-overlay">
+<!-- Hero Section -->
+<section class="hero">
+  <img src="market-1.jpg" class="hero-slide active">
+  <img src="market-2.jpg" class="hero-slide">
+  <img src="market-3.jpg" class="hero-slide">
+  <div class="hero-content">
     <h1>Redefining Local Commerce</h1>
     <p>Shop Nigeria’s markets with ease using VendPlug’s tech-powered platform.</p>
     <button class="cta-button" onclick="document.getElementById('waitlist').scrollIntoView({behavior: 'smooth'})">
@@ -230,18 +270,41 @@
   </div>
 </section>
 
+<!-- Add the rest of your sections here as already done -->
+
+<!-- Scripts -->
 <script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('show');
+    overlay.classList.toggle('show');
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    const slides = document.querySelectorAll('.hero-slide');
+    const heroSlides = document.querySelectorAll('.hero-slide');
     let current = 0;
 
-    function showNextSlide() {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
+    function showNextHeroSlide() {
+      heroSlides[current].classList.remove('active');
+      current = (current + 1) % heroSlides.length;
+      heroSlides[current].classList.add('active');
     }
 
-    setInterval(showNextSlide, 4000);
+    setInterval(showNextHeroSlide, 4000);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const track = document.querySelector('.carousel-track');
+    if (track) {
+      let index = 0;
+      function moveCarousel() {
+        index++;
+        if (index >= track.children.length) index = 0;
+        track.style.transform = `translateX(-${index * 100}%)`;
+      }
+      setInterval(moveCarousel, 3500);
+    }
   });
 </script>
 
@@ -390,5 +453,3 @@
 
 </body>
 </html>
-
-
